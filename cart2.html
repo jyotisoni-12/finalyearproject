@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart - Adsgallery</title>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header_section">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg custom_nav-container">
+        <a class="navbar-brand" href="index.html">
+          <span>adsgallery.in</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Cart Section -->
+  <section class="cart_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>Your Cart</h2>
+      </div>
+      <div class="cart_container">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="cart-items">
+            <!-- Cart items will be displayed here -->
+          </tbody>
+        </table>
+        <div class="cart-actions">
+          <button class="btn btn-danger" onclick="clearCart()">Clear Cart</button>
+          <a href="checkout.html" class="btn btn-primary">Proceed to Checkout</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer_section">
+    <div class="container">
+      <p>&copy; <span id="displayYear"></span> All Rights Reserved By
+        <a href="https://html.design/">Free Html Templates</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- jQuery -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="js/bootstrap.js"></script>
+  <!-- Custom JS -->
+  <script>
+    // Function to display cart items
+    function displayCart() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartItemsContainer = document.getElementById('cart-items');
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<tr><td colspan="2">Your cart is empty.</td></tr>';
+      } else {
+        cartItemsContainer.innerHTML = '';
+        cart.forEach((service, index) => {
+          cartItemsContainer.innerHTML += `
+            <tr>
+              <td>${service}</td>
+              <td><button class="btn btn-danger btn-sm" onclick="removeFromCart(${index})">Remove</button></td>
+            </tr>
+          `;
+        });
+      }
+    }
+
+    // Function to remove item from cart
+    function removeFromCart(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      displayCart();
+    }
+
+    // Function to clear the entire cart
+    function clearCart() {
+      localStorage.removeItem('cart');
+      displayCart();
+    }
+
+    // On page load, display the cart
+    window.onload = displayCart;
+  </script>
+</body>
+
+</html>
